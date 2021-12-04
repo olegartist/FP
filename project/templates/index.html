@@ -1,0 +1,97 @@
+{% extends 'flatpages/default.html' %}
+
+{% block menu %}
+{% include 'accounts/menu_accounts.html' %}
+{% endblock menu %}
+
+{% block title %}
+<h1> Портал для Опроса </h1>
+{% endblock title %}
+
+{% block content %}
+    {% csrf_token %}
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="username" class="col-form-label">Имя</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="username" class="form-control" name="username" value='{{request.user}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="username" class="form-text">
+      Имя пользователя вошедшего в систему
+    </span>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="type_user" class="col-form-label">Тип</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="type_user" class="form-control" name="type_user" value='{{type_user}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="type_user" class="form-text">
+      Тип пользователя вошедшего в систему
+    </span>
+        </div>
+    </div>
+
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="last_login" class="col-form-label">Дата</label>
+        </div>
+        <div class="col-auto">
+            <input type="datetime" id="last_login" class="form-control" name="last_login" value='{{request.user.last_login}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="last_login" class="form-text">
+      Последняя дата входа в систему
+    </span>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="user_count" class="col-form-label">Users</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="user_count" class="form-control" name="user_count" value='{{user_count}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="user_count" class="form-text">
+      Количество авторизованых пользователей в системе
+    </span>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center">
+        <div class="col-1">
+            <label for="survey_count" class="col-form-label">Опросы</label>
+        </div>
+        <div class="col-auto">
+            <input type="text" id="survey_count" class="form-control" name="survey_count" value='{{survey_count}}' readonly>
+        </div>
+        <div class="col-auto">
+    <span id="survey_count" class="form-text">
+      Количество Опросов в системе
+    </span>
+        </div>
+    </div>
+<br>
+    <p>
+        <button onclick="document.location='/surveys/'" class="btn btn-primary">Опрос</button>
+    </p>
+{% endblock content %}
+
+{% block content1 %}
+{% endblock content1 %}
+
+<!--
+<form action="/surveys/" method="POST" enctype="multipart/form-data" class="text-left">
+
+</form>
+
+-->

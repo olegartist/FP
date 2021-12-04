@@ -1,0 +1,17 @@
+
+import django.contrib.auth
+User = django.contrib.auth.get_user_model()
+
+user1 = User.objects.get(username='user01')
+user2 = User.objects.get(username='user02')
+
+from surveys.models import Surveys
+sr1 = Surveys.objects.get(id=2)
+
+#sr2 = Surveys.objects.get(user=user2)
+
+from surveys.models import Questions
+qs1 = Questions.objects.get(id=2)
+
+a = Author.objects.all().order_by('-rating').values('id', 'rating')[0]
+User.objects.get(pk=Author.objects.get(pk=a['id']).user_id).username, a['rating']
