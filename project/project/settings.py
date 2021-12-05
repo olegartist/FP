@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'accounts',
     'questions',
     'answers',
+    'users',
     'django_filters',
 ]
 

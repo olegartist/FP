@@ -24,6 +24,7 @@ urlpatterns = [
     path('surveys/', include('surveys.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('users/', include('users.urls')),
     #path('/surveys/', include('survey.urls')),
     #path('', TemplateView.as_view(template_name='index.html')),
     #path('', include(('login.urls', 'login'), namespace='logins')),

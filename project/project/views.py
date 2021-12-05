@@ -35,5 +35,8 @@ class IndexView(LoginRequiredMixin, TemplateView):
         #     self.template_name = 'survey/survey_user.html'
         #     return self.render_to_response(context)
 
-    # def post(self, request, *args, **kwargs):
-    #     return redirect('/')
+    def post(self, request, *args, **kwargs):
+        if request.user.is_staff:
+            return redirect('/surveys/')
+        else:
+            return redirect('/users/')

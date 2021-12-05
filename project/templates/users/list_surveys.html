@@ -25,20 +25,15 @@
         <th> Дата старта</th>
         <th> Дата окончания</th>
         <th> Вопросы</th>
-        <th></th>
     </tr>
     {% for survey in surveys %}
     <tr>
         <td> {{ survey.id}}</td>
-        <td><a href="{% url 'survey_update' survey.id %}"><u> {{ survey.theme|truncatechars:25 }} </u></a></td>
+        <td><a href="{% url 'user_survey' survey.id %}"><u> {{ survey.theme|truncatechars:25 }} </u></a></td>
         <td> {{ survey.description|truncatechars:25}}</td>
         <td> {{ survey.startdate|date:'d.m.y' }}</td>
         <td> {{ survey.enddate|date:'d.m.y' }}</td>
-        <td><a href="/surveys/questions/{{ survey.id }}"><u> {{ survey.id|qs_count }} </u></a></td>
-        <td>
-            <a href="{% url 'survey_delete' survey.id %}"><u> Del </u></a>
-        </td>
-
+        <td> {{ survey.id|qs_count }}</td>
     </tr>
     {% endfor%}
 </table>
@@ -48,7 +43,6 @@
 {%endif%}
 
 <h3><br></h3>
-<button onclick="document.location='{% url 'survey_create' %}'" class="btn btn-primary">Добавить Опрос</button>
 
 
 {% endblock content %}

@@ -28,3 +28,9 @@ def qs_count(value):
     else:
         res = Answers.objects.filter(question_id=id).count()
     return res
+
+@register.filter(name='aw_list')
+def qs_count(value):
+    id = int(value)
+    res = Answers.objects.filter(question_id=id)
+    return res

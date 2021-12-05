@@ -7,7 +7,7 @@ from .models import Surveys, Questions
 
 class IndexView(LoginRequiredMixin, ListView):
     model = Surveys
-    template_name = ''
+    template_name = 'surveys/list_admin.html'
     context_object_name = 'surveys'
     object_list = None
 
@@ -21,12 +21,9 @@ class IndexView(LoginRequiredMixin, ListView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         self.object_list = self.get_queryset()
-        if request.user.is_staff:
-            self.template_name = 'surveys/list_admin.html'
-            return self.render_to_response(context)
-        else:
-            self.template_name = 'surveys/list_user.html'
-            return self.render_to_response(context)
+        if not request.user.is_staff:
+            return redirect('/')
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         return redirect('/surveys/')
@@ -34,11 +31,10 @@ class IndexView(LoginRequiredMixin, ListView):
 class SurveyCreateView(LoginRequiredMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
-        if request.user.is_staff:
-            self.template_name = 'surveys/create.html'
-            return self.render_to_response(context)
-        else:
-            return redirect('/surveys/')
+        self.template_name = 'surveys/create.html'
+        if not request.user.is_staff:
+            return redirect('/')
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         if request.POST['startdate'] == '' or request.POST['enddate'] == '':
@@ -61,25 +57,18 @@ class SurveyUpdateView(LoginRequiredMixin, TemplateView):
     template_name = 'surveys/update.html'
     success_url = '/surveys/'
 
-    def get_context_data(self, **kwargs):
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data()
         id = self.kwargs.get('pk')
-        context = super().get_context_data(**kwargs)
         context['pk'] = id
         context['theme'] = Surveys.objects.filter(pk=id)[0].theme
         context['description'] = Surveys.objects.filter(pk=id)[0].description
         context['startdate'] = str(Surveys.objects.filter(pk=id)[0].startdate).split(" ")[0]
         context['enddate'] = str(Surveys.objects.filter(pk=id)[0].enddate).split(" ")[0]
-        return context
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data()
         # self.object_list = self.get_queryset()
-        if request.user.is_staff:
-            self.template_name = 'surveys/update.html'
-            return self.render_to_response(context)
-        else:
-            self.template_name = 'surveys/list_user.html'
-            return self.render_to_response(context)
+        if not request.user.is_staff:
+            return redirect('/')
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         id = self.kwargs.get('pk')

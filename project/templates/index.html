@@ -81,15 +81,19 @@
         </div>
     </div>
 <br>
-    <p>
-        <button onclick="document.location='/surveys/'" class="btn btn-primary">Опрос</button>
-    </p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Опрос</button>
+
 {% endblock content %}
 
 {% block content1 %}
 {% endblock content1 %}
 
 <!--
+    <p><button onclick="document.location='/surveys/'" class="btn btn-primary">Опрос</button></p>
+
 <form action="/surveys/" method="POST" enctype="multipart/form-data" class="text-left">
 
 </form>

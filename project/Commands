@@ -6,9 +6,27 @@ user1 = User.objects.get(username='user01')
 user2 = User.objects.get(username='user02')
 
 from surveys.models import Surveys
-sr1 = Surveys.objects.get(id=2)
+sr1 = Surveys.objects.get(id=3)
 
-#sr2 = Surveys.objects.get(user=user2)
+from surveys.models import Questions
+qs = Questions.objects.all()
+
+from surveys.models import Answers
+aw = Answers.objects.all()
+
+qs7 = Questions.objects.get(id=7)
+Surveys = 3 questions 5,6,7
+questions=7
+answers 2,4,7
+
+questions=6
+answers 5,6
+
+questions=5
+answers None, text
+
+
+
 
 from surveys.models import Questions
 qs1 = Questions.objects.get(id=2)

@@ -7,7 +7,7 @@ from surveys.models import Surveys, Questions, Answers
 
 class IndexView(LoginRequiredMixin, ListView):
     model = Answers
-    template_name = ''
+    template_name = 'answers/list_admin.html'
     context_object_name = 'answers'
     object_list = None
 
@@ -24,12 +24,9 @@ class IndexView(LoginRequiredMixin, ListView):
         context['sr'] = sr
         context['qs'] = qs
         # self.object_list = self.get_queryset()
-        if request.user.is_staff:
-            self.template_name = 'answers/list_admin.html'
-            return self.render_to_response(context)
-        else:
-            self.template_name = 'surveys/list_user.html'
-            return self.render_to_response(context)
+        if not request.user.is_staff:
+            return redirect('/')
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         # id = self.kwargs.get('sr')
@@ -38,18 +35,15 @@ class IndexView(LoginRequiredMixin, ListView):
 
 
 class AnswerCreateView(LoginRequiredMixin, TemplateView):
-    template_name = ''
+    template_name = 'answers/create.html'
 
     def get(self, request, *args, **kwargs):
         sr = str(self.kwargs.get('sr'))
         qs = str(self.kwargs.get('qs'))
         context = self.get_context_data()
-        if request.user.is_staff:
-            self.template_name = 'answers/create.html'
-            return self.render_to_response(context)
-        else:
-            self.template_name = 'surveys/list_user.html'
-            return self.render_to_response(context)
+        if not request.user.is_staff:
+            return redirect('/')
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         sr = str(self.kwargs.get('sr'))
@@ -76,7 +70,7 @@ class AnswerDeleteView(LoginRequiredMixin, TemplateView):
         context['qs'] = qs
         context['aw'] = aw
         if not request.user.is_staff:
-            self.template_name = 'surveys/list_user.html'
+            return redirect('/')
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
@@ -99,7 +93,7 @@ class AnswerUpdateView(LoginRequiredMixin, TemplateView):
         context['qs'] = qs
         context['aw'] = aw
         if not request.user.is_staff:
-            self.template_name = 'surveys/list_user.html'
+            return redirect('/')
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):

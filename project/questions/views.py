@@ -6,7 +6,7 @@ from surveys.models import Surveys, Questions
 
 class IndexView(LoginRequiredMixin, ListView):
     model = Questions
-    template_name = ''
+    template_name = 'questions/list_admin.html'
     context_object_name = 'questions'
     object_list = None
 
@@ -19,12 +19,9 @@ class IndexView(LoginRequiredMixin, ListView):
         context['questions'] = Questions.objects.filter(survey=sr).order_by('-id')
         context['sr'] = sr
         # self.object_list = self.get_queryset()
-        if request.user.is_staff:
-            self.template_name = 'questions/list_admin.html'
-            return self.render_to_response(context)
-        else:
-            self.template_name = 'surveys/list_user.html'
-            return self.render_to_response(context)
+        if not request.user.is_staff:
+            return redirect('/')
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         # id = self.kwargs.get('sr')
@@ -32,17 +29,14 @@ class IndexView(LoginRequiredMixin, ListView):
 
 
 class QuestionCreateView(LoginRequiredMixin, TemplateView):
-    template_name = ''
+    template_name = 'questions/create.html'
 
     def get(self, request, *args, **kwargs):
         # sr = str(self.kwargs.get('sr'))
         context = self.get_context_data()
-        if request.user.is_staff:
-            self.template_name = 'questions/create.html'
-            return self.render_to_response(context)
-        else:
-            self.template_name = 'surveys/list_user.html'
-            return self.render_to_response(context)
+        if not request.user.is_staff:
+            return redirect('/')
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         sr = str(self.kwargs.get('sr'))
@@ -66,6 +60,8 @@ class QuestionDeleteView(LoginRequiredMixin, TemplateView):
         context = self.get_context_data()
         context['question'] = Questions.objects.get(pk=qs)
         context['sr'] = sr
+        if not request.user.is_staff:
+            return redirect('/')
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
@@ -76,7 +72,7 @@ class QuestionDeleteView(LoginRequiredMixin, TemplateView):
 
 
 class QuestionUpdateView(LoginRequiredMixin, TemplateView):
-    template_name = ''
+    template_name = 'questions/update.html'
 
     def get(self, request, *args, **kwargs):
         sr = str(self.kwargs.get('sr'))
@@ -86,12 +82,9 @@ class QuestionUpdateView(LoginRequiredMixin, TemplateView):
         context['type'] = Questions.objects.get(pk=qs).type
         context['sr'] = sr
         context['qs'] = qs
-        if request.user.is_staff:
-            self.template_name = 'questions/update.html'
-            return self.render_to_response(context)
-        else:
-            self.template_name = 'surveys/list_user.html'
-            return self.render_to_response(context)
+        if not request.user.is_staff:
+            return redirect('/')
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         sr = str(self.kwargs.get('sr'))
